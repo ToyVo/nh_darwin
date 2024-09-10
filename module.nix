@@ -12,7 +12,7 @@ let
 in
 {
   options.programs.nh.alias = lib.mkEnableOption "Enable alias of nh_darwin to nh";
-  options.programs.nh.flake = {
+  options.programs.nh.flake = lib.mkForce {
     os = lib.mkOption {
       type = lib.types.nullOr lib.types.path;
       default = null;
