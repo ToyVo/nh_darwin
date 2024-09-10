@@ -35,9 +35,7 @@ in
   config = {
     nixpkgs.overlays = [ self.overlays.default ];
     programs.nh.package = lib.mkDefault nh_darwin;
-    environment.systemPackages = lib.mkIf (cfg.enable && cfg.alias) [
-      nh
-    ];
+    environment.systemPackages = lib.mkIf (cfg.enable && cfg.alias) [ nh ];
     environment.variables = lib.mkMerge [
       (lib.mkIf (cfg.flake.os != null) { NH_OS_FLAKE = cfg.flake.os; })
       (lib.mkIf (cfg.flake.home != null) { NH_HOME_FLAKE = cfg.flake.home; })
