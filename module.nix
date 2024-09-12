@@ -12,8 +12,8 @@ let
 in
 {
   options.programs.nh.alias = lib.mkEnableOption "Enable alias of nh_darwin to nh";
-  options.programs.nh.flake = {
-    os = lib.mkOption {
+  options.programs.nh = {
+    os.flake = lib.mkOption {
       type = lib.types.nullOr lib.types.path;
       default = null;
       description = ''
@@ -22,7 +22,7 @@ in
         `NH_OS_FLAKE` is used by nh_darwin as the default flake for performing actions on NixOS/nix-darwin, like `nh_darwin os switch`.
       '';
     };
-    home = lib.mkOption {
+    home.flake = lib.mkOption {
       type = lib.types.nullOr lib.types.path;
       default = null;
       description = ''
@@ -37,8 +37,8 @@ in
     programs.nh.package = lib.mkDefault nh_darwin;
     environment.systemPackages = lib.mkIf (cfg.enable && cfg.alias) [ nh ];
     environment.variables = lib.mkMerge [
-      (lib.mkIf (cfg.flake.os != null) { NH_OS_FLAKE = cfg.flake.os; })
-      (lib.mkIf (cfg.flake.home != null) { NH_HOME_FLAKE = cfg.flake.home; })
+      (lib.mkIf (cfg.os.flake != null) { NH_OS_FLAKE = cfg.os.flake; })
+      (lib.mkIf (cfg.home.flake != null) { NH_HOME_FLAKE = cfg.home.flake; })
     ];
   };
 }
