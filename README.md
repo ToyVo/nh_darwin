@@ -5,10 +5,16 @@
 <h6 align="center">Because the name "yet-another-<u>n</u>ix-<u>h</u>elper" was too long to type...</h1>
 Works on NixOS, NixDarwin, and HomeManager Standalone
 
+## Important
+
+this fork is winding down, nix darwin is now supported with v4.0.0 of upstream nh
+
 ## Why fork?
 
-The original owner is unwilling to pull in changes to support darwin because they don't have a mac to be able to
-maintain support https://github.com/viperML/nh/issues/67 & https://github.com/viperML/nh/pull/97
+~~The original owner is unwilling to pull in changes to support darwin because they don't have a mac to be able to
+maintain support https://github.com/viperML/nh/issues/67 & https://github.com/viperML/nh/pull/97~~
+
+support has been added upstream with 4.0.0
 
 ## What has been added?
 
