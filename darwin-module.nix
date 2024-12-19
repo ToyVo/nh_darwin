@@ -19,6 +19,15 @@ in
       default = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
     };
 
+    flake = lib.mkOption {
+      type = lib.types.nullOr lib.types.path;
+      default = null;
+      description = ''
+        The path that will be used for the `NH_FLAKE` environment variable.
+
+        `NH_FLAKE` is used by nh as the default flake for performing actions on NixOS/nix-darwin, like `nh os switch`.
+      '';
+    };
     os.flake = lib.mkOption {
       type = lib.types.nullOr lib.types.path;
       default = null;
@@ -88,7 +97,10 @@ in
         assertion = cfg.clean.enable -> cfg.enable;
         message = "programs.nh.clean.enable requires programs.nh.enable";
       }
-
+      {
+        assertion = (cfg.flake != null) -> !(lib.hasSuffix ".nix" cfg.flake);
+        message = "nh.flake must be a directory, not a nix file";
+      }
       {
         assertion = (cfg.os.flake != null) -> !(lib.hasSuffix ".nix" cfg.os.flake);
         message = "nh.os.flake must be a directory, not a nix file";
@@ -104,6 +116,7 @@ in
     environment = lib.mkIf cfg.enable {
       systemPackages = [ cfg.package ];
       variables = lib.mkMerge [
+        (lib.mkIf (cfg.flake != null) { NH_FLAKE = cfg.flake; })
         (lib.mkIf (cfg.os.flake != null) { NH_OS_FLAKE = cfg.os.flake; })
         (lib.mkIf (cfg.home.flake != null) { NH_HOME_FLAKE = cfg.home.flake; })
       ];
